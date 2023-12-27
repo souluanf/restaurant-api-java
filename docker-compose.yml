@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    restart: unless-stopped
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - default
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.3
+    container_name: keycloak
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+    - ./auth/realm.json:/opt/keycloak/data/import/realm.json
+    depends_on:
+      - postgres
+    networks:
+      - default
+    ports:
+      - "8070:8080"
+
+  app:
+    container_name: app
+    env_file: .env
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak
+      - postgres
+      - rabbitmq
+    networks:
+      - default
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  rabbitmq:
