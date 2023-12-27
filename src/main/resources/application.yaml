@@ -1,0 +1,76 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /restaurant
+    encoding:
+      force: true
+  shutdown: graceful
+spring:
+  application:
+    name: restaurant-api
+  profiles:
+    active: ${restaurant-api.spring.profiles.active:dev}
+  datasource:
+    driver-class-name: ${restaurant-api.datasource.driver-class-name}
+    password: ${restaurant-api.datasource.password}
+    username: ${restaurant-api.datasource.username}
+    url: ${restaurant-api.datasource.url}
+    hikari:
+      maximum-pool-size: ${restaurant-api.datasource.hikari.maximum-pool-size}
+  web:
+    resources:
+      add-mappings: false
+  jpa:
+    open-in-view: ${restaurant-api.jpa.open-in-view}
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: ${restaurant-api.jpa.properties.hibernate.enable_lazy_load_no_trans}
+    hibernate:
+      ddl-auto: ${restaurant-api.jpa.hibernate.ddl-auto}
+    show-sql: ${restaurant-api.jpa.show-sql}
+  mvc:
+    throw-exception-if-no-handler-found: true
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: ${restaurant-api.oidc.issuer-uri}
+          token-uri: ${restaurant-api.oidc.token-uri}
+          jwk-set-uri: ${restaurant-api.oidc.jwk-set-uri}
+  jackson:
+    default-property-inclusion: NON_NULL
+
+  rabbitmq:
+    host: ${restaurant-api.rabbitmq.host}
+    port: ${restaurant-api.rabbitmq.port}
+    username: ${restaurant-api.rabbitmq.username}
+    password: ${restaurant-api.rabbitmq.password}
+    queue:
+      name: ${restaurant-api.rabbitmq.queue.name}
+      dlq:
+        name: ${restaurant-api.rabbitmq.queue.dlq.name}
+    exchange:
+      name: ${restaurant-api.rabbitmq.exchange.name}
+      dlq:
+        name: ${restaurant-api.rabbitmq.exchange.dlq.name}
+    routing:
+      key: ${restaurant-api.rabbitmq.routing.key}
+      dlq:
+        key: ${restaurant-api.rabbitmq.routing.dlq.key}
+springdoc:
+  swagger-ui:
+    enabled: ${restaurant-api.springdoc.swagger-ui.enabled}
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+swagger-servers-urls: ${restaurant-api.swagger-servers-urls}
+
+logging:
+  pattern:
+    console: "%red(%d{yyyy-MM-dd'T'HH:mm:ssXXX}) %magenta([%thread]) [${spring.application.name}, %X{traceId:-}, %X{spanId:-}] %highlight(%-5level) %logger{36}.%M - %msg%n"
+  level:
+    org.springframework.core.LocalVariableTableParameterNameDiscoverer: ERROR
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR
+    org.springframework.security.web.DefaultSecurityFilterChain: ERROR

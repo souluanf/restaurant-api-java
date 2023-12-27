@@ -1,0 +1,43 @@
+restaurant-api:
+  oidc:
+    issuer-uri: http://localhost:8070/realms/desafio
+    token-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/token
+    jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 1
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  springdoc:
+    swagger-ui:
+      enabled: true
+
+  swagger-servers-urls: http://localhost:${server.port}${server.servlet.context-path}
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queue:
+      name: relationship_hub_api
+      dlq:
+        name: relationship_hub_api_dlq
+    exchange:
+      name: relationship_hub_api_exchange
+      dlq:
+        name: relationship_hub_api_exchange_dlq
+    routing:
+      key: relationship_hub_api_routing_key
+      dlq:
+        key: relationship_hub_api_routing_key_dlq
