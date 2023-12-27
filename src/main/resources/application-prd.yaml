@@ -1,5 +1,6 @@
 restaurant-api:
   oidc:
+    client-id: restaurant-api
     issuer-uri: ${KEYCLOAK_URL}/realms/desafio
     token-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/token
     jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs

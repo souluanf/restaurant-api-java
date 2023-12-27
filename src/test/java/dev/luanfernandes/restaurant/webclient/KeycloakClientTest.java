@@ -1,4 +1,4 @@
-package dev.luanfernandes.restaurant;
+package dev.luanfernandes.restaurant.webclient;
 
 import static dev.luanfernandes.restaurant.common.constants.PathConstants.AUTH_TOKEN_V1;
 import static dev.luanfernandes.restaurant.domain.request.TokenRequestBuilder.getTokenRequest;
@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import dev.luanfernandes.restaurant.domain.response.TokenResponse;
-import dev.luanfernandes.restaurant.webclient.KeycloakClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

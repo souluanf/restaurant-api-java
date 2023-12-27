@@ -74,8 +74,10 @@ class AuthControllerTest {
 
     static Stream<TokenRequest> invalidTokenRequestsProvider() {
         return of(
-                new TokenRequest("", "password", "client_id"),
-                new TokenRequest("username", "", "client_id"),
-                new TokenRequest("username", "password", ""));
+                new TokenRequest("", "password"),
+                new TokenRequest("username", ""),
+                new TokenRequest(null, "password"),
+                new TokenRequest("username", null),
+                new TokenRequest(null, null));
     }
 }

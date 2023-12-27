@@ -1,5 +1,6 @@
 restaurant-api:
   oidc:
+    client-id: restaurant-api
     issuer-uri: http://localhost:8070/realms/desafio
     jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:

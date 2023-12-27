@@ -36,6 +36,7 @@ spring:
     oauth2:
       resource-server:
         jwt:
+          client-id: ${restaurant-api.oidc.client-id}
           issuer-uri: ${restaurant-api.oidc.issuer-uri}
           token-uri: ${restaurant-api.oidc.token-uri}
           jwk-set-uri: ${restaurant-api.oidc.jwk-set-uri}

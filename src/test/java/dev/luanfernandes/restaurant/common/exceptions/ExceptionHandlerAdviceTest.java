@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,19 +77,12 @@ class ExceptionHandlerAdviceTest {
     @Test
     @DisplayName("Should return validation errors when handle a MethodArgumentNotValidException")
     void handleMethodArgumentNotValidException() {
-        // Configure um MethodParameter simulado e um BindingResult com erros
         Object target = new Object();
         String objectName = "objectName";
         BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(target, objectName);
         bindingResult.addError(new FieldError(objectName, "field", "must not be null"));
-
-        // Crie uma instância de MethodArgumentNotValidException
         MethodArgumentNotValidException exception = new MethodArgumentNotValidException(methodParameter, bindingResult);
-
-        // Chame exceptionHandlerAdvice.handleMethodArgumentNotValidException(exception)
         ProblemDetail problemDetail = exceptionHandlerAdvice.handleMethodArgumentNotValidException(exception);
-
-        // Verifique se o status é BAD_REQUEST e os detalhes do erro estão presentes no corpo da resposta
         assertNotNull(problemDetail);
         assertEquals(HttpStatus.BAD_REQUEST.value(), problemDetail.getStatus());
         assertTrue(requireNonNull(problemDetail.getProperties()).containsKey("stacktrace"));
@@ -95,5 +90,18 @@ class ExceptionHandlerAdviceTest {
         assertNotNull(errors);
         assertFalse(errors.isEmpty());
         assertTrue(errors.get(0).contains("field: must not be null"));
+    }
+
+    @Test
+    @DisplayName("Should handle HttpClientErrorException and return appropriate response")
+    void handleHttpClientErrorException() {
+        HttpClientErrorException exception = new HttpClientErrorException(UNAUTHORIZED, "Unauthorized");
+        ResponseEntity<ProblemDetail> responseEntity = exceptionHandlerAdvice.handleHttpClientErrorException(exception);
+        assertNotNull(responseEntity);
+        assertEquals(UNAUTHORIZED, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        ProblemDetail problemDetail = responseEntity.getBody();
+        assertNotNull(problemDetail);
+        assertEquals(UNAUTHORIZED.value(), problemDetail.getStatus());
     }
 }

@@ -27,7 +27,7 @@ public class WebSecurityConfig {
     private static final String ADMIN_ROLE = "ADMIN";
 
     private static final String[] ALLOWED_PATHS = {
-        "/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", AUTH_TOKEN_V1
+        "/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", AUTH_TOKEN_V1, "/"
     };
 
     @Bean

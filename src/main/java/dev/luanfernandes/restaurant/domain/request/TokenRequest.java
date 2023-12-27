@@ -4,4 +4,4 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-public record TokenRequest(@NotBlank String username, @NotBlank String password, @NotBlank String client_id) {}
+public record TokenRequest(@NotBlank String username, @NotBlank String password) {}

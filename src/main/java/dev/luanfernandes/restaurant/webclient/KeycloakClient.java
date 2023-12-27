@@ -20,15 +20,18 @@ public class KeycloakClient {
     @Value("${spring.security.oauth2.resource-server.jwt.token-uri}")
     private String tokenUri;
 
+    @Value("${spring.security.oauth2.resource-server.jwt.client-id}")
+    private String clientId;
+
     private final RestTemplate restTemplate;
 
     public TokenResponse getToken(TokenRequest tokenRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("client_id", tokenRequest.client_id());
         formData.add("username", tokenRequest.username());
         formData.add("password", tokenRequest.password());
+        formData.add("client_id", clientId);
         formData.add("grant_type", "password");
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
         return restTemplate.postForObject(tokenUri, request, TokenResponse.class);
