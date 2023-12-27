@@ -61,7 +61,7 @@ OBS: Há um  delay após a execução do comando acima, pois o kafka precisa de 
 
 ## Documentação
 
-- **Swagger UI (Local):** [http://localhost:8080](http://localhost:8080)
+- **Swagger UI (Local):** [http://localhost:8080/restaurant](http://localhost:8080/restaurant)
 - **Postman Collection:** [https://documenter.getpostman.com/view/26187327/2s9Ykt5zMx](https://documenter.getpostman.com/view/26187327/2s9Ykt5zMx)
 - **Postman Collection (File):** [postman_collection.json](postman_collection.json)
 
