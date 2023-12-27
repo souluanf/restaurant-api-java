@@ -6,6 +6,7 @@ import static dev.luanfernandes.restaurant.domain.response.TokenResponseBuilder.
 import static java.util.stream.Stream.of;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,7 +25,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,7 +51,7 @@ class AuthControllerTest {
         when(authService.getToken(any(TokenRequest.class))).thenReturn(tokenResponse);
 
         mvc.perform(post(AUTH_TOKEN_V1)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(tokenRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.access_token").value(tokenResponse.accessToken()))
@@ -67,7 +67,7 @@ class AuthControllerTest {
     @DisplayName("Should return 400 BAD REQUEST for invalid TokenRequests")
     void shouldReturnBadRequestForInvalidTokenRequests(TokenRequest request) throws Exception {
         mvc.perform(post(AUTH_TOKEN_V1)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }

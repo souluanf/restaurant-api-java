@@ -19,7 +19,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -84,7 +83,7 @@ class ExceptionHandlerAdviceTest {
         MethodArgumentNotValidException exception = new MethodArgumentNotValidException(methodParameter, bindingResult);
         ProblemDetail problemDetail = exceptionHandlerAdvice.handleMethodArgumentNotValidException(exception);
         assertNotNull(problemDetail);
-        assertEquals(HttpStatus.BAD_REQUEST.value(), problemDetail.getStatus());
+        assertEquals(BAD_REQUEST.value(), problemDetail.getStatus());
         assertTrue(requireNonNull(problemDetail.getProperties()).containsKey("stacktrace"));
         List<String> errors = (List<String>) problemDetail.getProperties().get("stacktrace");
         assertNotNull(errors);

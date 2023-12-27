@@ -8,7 +8,9 @@ import static dev.luanfernandes.restaurant.common.constants.TestConstants.PRICE;
 import static java.util.List.of;
 
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class ProductResponseBuilder {
 
     public static ProductResponse getProductResponse() {

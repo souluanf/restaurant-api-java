@@ -7,7 +7,9 @@ import static dev.luanfernandes.restaurant.common.constants.TestConstants.QUANTI
 import static java.util.List.of;
 
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class ProductInfoResponseBuilder {
 
     public static ProductInfoResponse getProductInfoResponse() {

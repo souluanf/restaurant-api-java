@@ -7,7 +7,9 @@ import static dev.luanfernandes.restaurant.domain.response.ProductInfoResponseBu
 import static java.util.List.of;
 
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class OrderResponseBuilder {
 
     public static OrderResponse getOrderResponse() {

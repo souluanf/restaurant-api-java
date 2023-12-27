@@ -1,5 +1,8 @@
 package dev.luanfernandes.restaurant.domain.response;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class TokenResponseBuilder {
 
     public static TokenResponse getTokenResponse() {
